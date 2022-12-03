@@ -41,3 +41,18 @@ with open ("conso-annuelles_v1.csv", encoding = 'Latin-1') as f:
             count+=1
         
             
+#ouverture du fichier mode lecture
+with open('conso-clean.csv',newline='',encoding= 'Latin-1') as fichier_csv:
+    lecteur = csv.DictReader(fichier_csv, delimiter=",")
+
+#Trier par type et par consommation globlale par ordre décroissant
+
+    liste_rangee = sorted(lecteur, key=lambda row:(row['Type'],float(row['Consommation globale'])), reverse=True)
+
+#ouverture en mode écriture
+with open('conso-clean.csv', 'w',newline='',encoding= 'Latin-1') as fichier_sortie:
+    champs = ['Appareil suivi','Consommation annuelle AN1','Consommation annuelle AN2','Type', 'Consommation globale']
+    ecriteur = csv.DictWriter(fichier_sortie, fieldnames=champs,delimiter=',',quotechar='|')
+    ecriteur.writeheader()
+    for ligne1 in liste_rangee:
+        ecriteur.writerow(ligne1)
